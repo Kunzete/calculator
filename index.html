@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="screen">
+        <h1 id="opt">0</h1>
+      </div>
+      <div class="buttons">
+        <div class="numbers">
+          <button type="button" id="num" value="1">1</button>
+          <button type="button" id="num" value="2">2</button>
+          <button type="button" id="num" value="3">3</button>
+          <input type="button" id="add" value="+"></input>
+          <button type="button" id="num" value="4">4</button>
+          <button type="button" id="num" value="5">5</button>
+          <button type="button" id="num" value="6">6</button>
+          <input type="button" id="subtract" value="-"></input>
+          <button type="button" id="num" value="7">7</button>
+          <button type="button" id="num" value="8">8</button>
+          <button type="button" id="num" value="9">9</button>
+          <input type="button" id="multiply" value="*"></input>
+          <button type="button" id="num" value="0">0</button>
+          <button type="button" id="num" value=".">.</button>
+          <input type="button" id="sum" value="="></input>
+          <input type="button" id="divide" value="/"></input>
+          <input type="button" id="clear" value="C"></input>
+        </div>
+        <div class="operator"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+
+    let number = document.querySelectorAll("button")
+    let operator = document.querySelectorAll("input")
+    let sum = document.getElementById("sum");
+    let clear = document.getElementById("clear");
+    let opt = document.getElementById("opt");
+    let equation = "0";
+
+    number.forEach(element => {
+      element.addEventListener("click",()=>{
+        if (equation === "0") {
+          equation = element.value;
+        } else {
+          equation += element.value;
+        }
+        opt.innerText = equation;
+      })
+    })
+
+    operator.forEach(element => {
+      element.addEventListener("click",()=>{
+        if (element.value === "=") {
+          try {
+            let result = eval(equation);
+            opt.innerText = result;
+            equation = result.toString();
+          } catch (e) {
+            opt.innerText = "Error";
+            equation = "0";
+          }
+        } else if (element.value === "C") {
+          opt.innerText = "0";
+          equation = "0";
+        } else {
+          if (equation!== "0" && equation!== "Error") {
+            equation += element.value;
+            opt.innerText = equation;
+          }
+        }
+      })
+    })
+
+    window.addEventListener("keypress",(e)=>{
+      if (e.key === "c") {
+        opt.innerText = "0";
+        equation = "0";
+      }
+    })
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace") {
+        equation = equation.slice(0, -1);
+        if (equation === "") {
+          equation = "0";
+        }
+        opt.innerText = equation;
+      }
+    });
+
+  </script>
+</html>
